@@ -54,7 +54,10 @@ export const handler: Handlers = {
         "</channel>" +
         "</rss>",
       {
-        headers: { "Content-Type": "application/xml" },
+        headers: {
+          "Content-Type": "application/xml",
+          "Cache-Control": "s-maxage=60, stale-while-revalidate",
+        },
       }
     );
   },
