@@ -2,11 +2,11 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $0 from "./routes/api/hello.ts";
+import * as $0 from "./routes/api/scrapbox/[slug].ts";
 
 const manifest = {
   routes: {
-    "./routes/api/hello.ts": $0,
+    "./routes/api/scrapbox/[slug].ts": $0,
   },
   islands: {},
   baseUrl: import.meta.url,
