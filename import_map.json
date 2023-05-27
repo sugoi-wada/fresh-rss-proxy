@@ -4,7 +4,7 @@
     "preact": "https://esm.sh/preact@10.13.1",
     "preact/": "https://esm.sh/preact@10.13.1/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@5.2.6",
-    "rss-parser": "https://esm.sh/rss-parser@3.13.0",
+    "rss": "https://deno.land/x/rss@0.6.0/mod.ts",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.1.3",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.2.3"
   }
