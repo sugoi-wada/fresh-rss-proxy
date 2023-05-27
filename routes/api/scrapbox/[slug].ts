@@ -1,36 +1,26 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
-import Parser from "rss-parser";
-
-type CustomFeed = { lastBuildDate: string };
-type CustomItem = { description: string };
-
-const parser = new Parser<CustomFeed, CustomItem>({
-  customFields: {
-    feed: ["lastBuildDate"],
-    item: ["description"],
-  },
-});
+import { parseFeed } from "rss";
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: HandlerContext) {
     const { slug } = ctx.params;
 
     const project = await fetchScrapboxPages(slug);
-    const feed = await parser.parseURL(`https://scrapbox.io/api/feed/${slug}`);
+    const feed = await parseScrapboxFeed(slug);
 
     return new Response(
       '<?xml version="1.0" encoding="utf-8"?>' +
         '<rss version="2.0">' +
         "<channel>" +
-        `<title>${feed.title}</title>` +
-        `<link>${feed.link}</link>` +
+        `<title>${feed.title.value}</title>` +
+        `<link>${feed.links[0]}</link>` +
         `<description>${feed.description}</description>` +
-        `<lastBuildDate>${feed.lastBuildDate}</lastBuildDate>` +
-        `<docs>https://validator.w3.org/feed/docs/rss2.html</docs>` +
+        `<lastBuildDate>${feed.updateDateRaw}</lastBuildDate>` +
+        `<docs>${feed.docs}</docs>` +
         `<generator>fresh-rss-proxy</generator>` +
-        feed.items
-          .map((item) => {
-            const simpleTitle = item.title?.replace(
+        feed.entries
+          .map((entry) => {
+            const simpleTitle = entry.title?.value?.replace(
               new RegExp(` - ${slug} - Scrapbox$`, "g"),
               ""
             );
@@ -39,14 +29,14 @@ export const handler: Handlers = {
             return (
               "<item>" +
               `<title><![CDATA[${simpleTitle}]]></title>` +
-              `<link>${item.link}</link>` +
-              `<guid>${item.guid}</guid>` +
+              `<link>${entry.links[0].href}</link>` +
+              `<guid>${entry.id}</guid>` +
               `<pubDate>${
                 page
                   ? new Date(page.created * 1000).toUTCString()
-                  : item.pubDate
+                  : entry.publishedRaw
               }</pubDate>` +
-              `<description><![CDATA[${item.description}]]></description>` +
+              `<description><![CDATA[${entry.description?.value}]]></description>` +
               "</item>"
             );
           })
@@ -78,4 +68,14 @@ const fetchScrapboxPages = async (
     throw Error(`Page ${resp.url} returns ${resp.status} ${resp.body}`);
   }
   return await resp.json();
+};
+
+const parseScrapboxFeed = async (slug: string) => {
+  const resp = await fetch(`https://scrapbox.io/api/feed/${slug}`);
+
+  if (resp.status > 299) {
+    throw Error(`Page ${resp.url} returns ${resp.status} ${resp.body}`);
+  }
+  const xml = await resp.text();
+  return await parseFeed(xml);
 };
