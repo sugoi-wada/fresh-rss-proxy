@@ -1,4 +1,5 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
+import { Feed as NewFeed } from "feed";
 import { parseFeed } from "rss";
 
 export const handler: Handlers = {
@@ -6,50 +7,43 @@ export const handler: Handlers = {
     const { slug } = ctx.params;
 
     const project = await fetchScrapboxPages(slug);
-    const feed = await parseScrapboxFeed(slug);
+    const feedFrom = await parseScrapboxFeed(slug);
 
-    return new Response(
-      '<?xml version="1.0" encoding="utf-8"?>' +
-        '<rss version="2.0">' +
-        "<channel>" +
-        `<title>${feed.title.value}</title>` +
-        `<link>${feed.links[0]}</link>` +
-        `<description>${feed.description}</description>` +
-        `<lastBuildDate>${feed.updateDateRaw}</lastBuildDate>` +
-        `<docs>${feed.docs}</docs>` +
-        `<generator>fresh-rss-proxy</generator>` +
-        feed.entries
-          .map((entry) => {
-            const simpleTitle = entry.title?.value?.replace(
-              new RegExp(` - ${slug} - Scrapbox$`, "g"),
-              ""
-            );
-            const page = project.pages.find((p) => p.title === simpleTitle);
+    const feedTo = new NewFeed({
+      id: feedFrom.id,
+      title: feedFrom.title.value ?? "Untitled - Scrapbox",
+      link: feedFrom.links[0],
+      description: feedFrom.description,
+      docs: feedFrom.docs,
+      updated: feedFrom.updateDate,
+      copyright: feedFrom.copyright ?? "",
+      generator: "fresh-rss-proxy",
+    });
 
-            return (
-              "<item>" +
-              `<title><![CDATA[${simpleTitle}]]></title>` +
-              `<link>${entry.links[0].href}</link>` +
-              `<guid>${entry.id}</guid>` +
-              `<pubDate>${
-                page
-                  ? new Date(page.created * 1000).toUTCString()
-                  : entry.publishedRaw
-              }</pubDate>` +
-              `<description><![CDATA[${entry.description?.value}]]></description>` +
-              "</item>"
-            );
-          })
-          .join("") +
-        "</channel>" +
-        "</rss>",
-      {
-        headers: {
-          "Content-Type": "application/xml",
-          "Cache-Control": "s-maxage=60, stale-while-revalidate",
-        },
-      }
-    );
+    feedFrom.entries.map((entry) => {
+      const simpleTitle =
+        entry.title?.value?.replace(
+          new RegExp(` - ${slug} - Scrapbox$`, "g"),
+          ""
+        ) ?? "Untitled";
+      const page = project.pages.find((p) => p.title === simpleTitle);
+
+      return feedTo.addItem({
+        id: entry.id,
+        title: simpleTitle,
+        link: entry.links[0].href ?? "",
+        description: entry.description?.value,
+        date: entry["dc:created"] ?? new Date(),
+        published: page ? new Date(page.created * 1000) : entry.published,
+      });
+    });
+
+    return new Response(feedTo.rss2(), {
+      headers: {
+        "Content-Type": "application/xml",
+        "Cache-Control": "s-maxage=60, stale-while-revalidate",
+      },
+    });
   },
 };
 
