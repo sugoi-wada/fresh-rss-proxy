@@ -3,6 +3,6 @@
   "deno.lint": true,
   "editor.defaultFormatter": "denoland.vscode-deno",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   }
 }
