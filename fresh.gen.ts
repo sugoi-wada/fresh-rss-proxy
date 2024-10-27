@@ -4,7 +4,7 @@
 
 import * as $api_scrapbox_slug_ from "./routes/api/scrapbox/[slug].ts";
 
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
