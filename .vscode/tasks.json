@@ -4,10 +4,10 @@
     {
       "type": "deno",
       "command": "task",
-      "args": ["start"],
+      "args": ["dev"],
       "problemMatcher": ["$deno"],
-      "label": "deno task: start",
-      "detail": "deno run -A --watch=static/,routes/ dev.ts"
+      "label": "deno task: dev",
+      "detail": "vite dev server with deno"
     }
   ]
 }
