@@ -6,12 +6,12 @@ export const handler = define.handlers({
   async GET(ctx) {
     const { slug } = ctx.params;
 
-    const project = await fetchScrapboxPages(slug);
-    const feedFrom = await parseScrapboxFeed(slug);
+    const project = await fetchCosensePages(slug);
+    const feedFrom = await parseCosenseFeed(slug);
 
     const feedTo = new NewFeed({
       id: feedFrom.id,
-      title: feedFrom.title.value ?? "Untitled - Scrapbox",
+      title: feedFrom.title.value ?? "Untitled - Cosense",
       link: feedFrom.links[0],
       description: feedFrom.description,
       docs: feedFrom.docs,
@@ -23,7 +23,7 @@ export const handler = define.handlers({
     feedFrom.entries.forEach((entry) => {
       const simpleTitle =
         entry.title?.value?.replace(
-          new RegExp(` - ${slug} - Scrapbox$`, "g"),
+          new RegExp(` - ${slug} - Cosense$`, "g"),
           ""
         ) ?? "Untitled";
       const page = project.pages.find((p) => p.title === simpleTitle);
@@ -47,7 +47,7 @@ export const handler = define.handlers({
   },
 });
 
-const fetchScrapboxPages = async (
+const fetchCosensePages = async (
   slug: string
 ): Promise<{
   pages: {
@@ -64,7 +64,7 @@ const fetchScrapboxPages = async (
   return await resp.json();
 };
 
-const parseScrapboxFeed = async (slug: string) => {
+const parseCosenseFeed = async (slug: string) => {
   const resp = await fetch(`https://scrapbox.io/api/feed/${slug}`);
 
   if (resp.status > 299) {
