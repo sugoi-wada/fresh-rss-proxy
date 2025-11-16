@@ -1,9 +1,9 @@
-import { HandlerContext, Handlers } from "$fresh/server.ts";
+import { parseFeed } from "@mikaelporttila/rss";
+import { define } from "../../../utils.ts";
 import { Feed as NewFeed } from "feed";
-import { parseFeed } from "rss";
 
-export const handler: Handlers = {
-  async GET(_req: Request, ctx: HandlerContext) {
+export const handler = define.handlers({
+  async GET(ctx) {
     const { slug } = ctx.params;
 
     const project = await fetchScrapboxPages(slug);
@@ -20,7 +20,7 @@ export const handler: Handlers = {
       generator: "fresh-rss-proxy",
     });
 
-    feedFrom.entries.map((entry) => {
+    feedFrom.entries.forEach((entry) => {
       const simpleTitle =
         entry.title?.value?.replace(
           new RegExp(` - ${slug} - Scrapbox$`, "g"),
@@ -28,7 +28,7 @@ export const handler: Handlers = {
         ) ?? "Untitled";
       const page = project.pages.find((p) => p.title === simpleTitle);
 
-      return feedTo.addItem({
+      feedTo.addItem({
         id: entry.id,
         title: simpleTitle,
         link: entry.links[0].href ?? "",
@@ -45,7 +45,7 @@ export const handler: Handlers = {
       },
     });
   },
-};
+});
 
 const fetchScrapboxPages = async (
   slug: string
