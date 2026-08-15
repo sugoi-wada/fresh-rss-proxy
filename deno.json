@@ -14,7 +14,7 @@
     "@mikaelporttila/rss": "jsr:@mikaelporttila/rss@^1.1.3",
     "fresh": "jsr:@fresh/core@^2.3.3",
     "@fresh/plugin-vite": "jsr:@fresh/plugin-vite@^1.1.2",
-    "vite": "npm:vite@^7.3.6",
+    "vite": "npm:vite@^8.0.0",
     "feed": "npm:feed@^6.0.0"
   },
   "compilerOptions": { "lib": ["deno.ns"], "types": ["vite/client"] }
