@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>sugoi-wada/renovate-config"
+  "extends": ["local>sugoi-wada/renovate-config"],
+  "platformAutomerge": false,
+  "automergeSchedule": [
+    "after 9am and before 6pm every weekday",
+    "after 11am and before 11pm every weekend"
   ]
 }
