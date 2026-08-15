@@ -21,11 +21,10 @@ export const handler = define.handlers({
     });
 
     feedFrom.entries.forEach((entry) => {
-      const simpleTitle =
-        entry.title?.value?.replace(
-          new RegExp(` - ${slug} - Cosense$`, "g"),
-          ""
-        ) ?? "Untitled";
+      const simpleTitle = entry.title?.value?.replace(
+        new RegExp(` - ${slug} - Cosense$`, "g"),
+        "",
+      ) ?? "Untitled";
       const page = project.pages.find((p) => p.title === simpleTitle);
 
       feedTo.addItem({
@@ -48,7 +47,7 @@ export const handler = define.handlers({
 });
 
 const fetchCosensePages = async (
-  slug: string
+  slug: string,
 ): Promise<{
   pages: {
     title: string;
