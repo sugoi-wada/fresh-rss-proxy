@@ -36,7 +36,7 @@
     "npm:@babel/preset-react@^7.27.1": "7.29.7_@babel+core@7.29.7",
     "npm:@opentelemetry/api@^1.9.0": "1.10.0",
     "npm:@preact/signals@^2.5.1": "2.11.3_preact@10.29.8_preact-render-to-string@6.8.1",
-    "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.29.8_vite@8.3.4_esbuild@0.25.12_preact-render-to-string@6.8.1",
+    "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.29.8_vite@8.3.5_esbuild@0.25.12",
     "npm:@remix-run/node-fetch-server@0.12": "0.12.0",
     "npm:@types/babel__core@^7.20.5": "7.20.5",
     "npm:esbuild-wasm@~0.25.11": "0.25.12",
@@ -47,7 +47,7 @@
     "npm:preact@^10.28.2": "10.29.8_preact-render-to-string@6.8.1",
     "npm:preact@^10.29.1": "10.29.8_preact-render-to-string@6.8.1",
     "npm:rollup@^4.55.1": "4.65.0",
-    "npm:vite@8.3.4": "8.3.4_esbuild@0.25.12",
+    "npm:vite@8.3.5": "8.3.5_esbuild@0.25.12",
     "npm:vite@^7.1.4": "7.3.7"
   },
   "jsr": {
@@ -820,7 +820,7 @@
     "@prefresh/utils@1.2.1": {
       "integrity": "sha512-vq/sIuN5nYfYzvyayXI4C2QkprfNaHUQ9ZX+3xLD8nL3rWyzpxOm1+K7RtMbhd+66QcaISViK7amjnheQ/4WZw=="
     },
-    "@prefresh/vite@2.4.12_preact@10.29.8_vite@8.3.4_esbuild@0.25.12_preact-render-to-string@6.8.1": {
+    "@prefresh/vite@2.4.12_preact@10.29.8_vite@8.3.5_esbuild@0.25.12": {
       "integrity": "sha512-FY1fzXpUjiuosznMV0YM7XAOPZjB5FIdWS0W24+XnlxYkt9hNAwwsiKYn+cuTEoMtD/ZVazS5QVssBr9YhpCQA==",
       "dependencies": [
         "@babel/core",
@@ -829,7 +829,7 @@
         "@prefresh/utils",
         "@rollup/pluginutils",
         "preact",
-        "vite@8.3.4_esbuild@0.25.12"
+        "vite@8.3.5_esbuild@0.25.12"
       ]
     },
     "@remix-run/node-fetch-server@0.12.0": {
@@ -1477,8 +1477,8 @@
       ],
       "bin": true
     },
-    "vite@8.3.4_esbuild@0.25.12": {
-      "integrity": "sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==",
+    "vite@8.3.5_esbuild@0.25.12": {
+      "integrity": "sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==",
       "dependencies": [
         "esbuild@0.25.12",
         "lightningcss",
@@ -1512,7 +1512,7 @@
       "jsr:@fresh/plugin-vite@1.1.2",
       "jsr:@mikaelporttila/rss@1.1.3",
       "npm:feed@6.0.0",
-      "npm:vite@8.3.4"
+      "npm:vite@8.3.5"
     ]
   }
 }
