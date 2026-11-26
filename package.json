@@ -1,0 +1,1 @@
+{"name":"fresh-rss-proxy","private":true,"scripts":{"check":"tsc --noEmit","deploy":"wrangler deploy","dev":"wrangler dev"},"type":"module","version":"0.0.0","dependencies":{"@jsr/mikaelporttila__rss":"1.1.3","feed":"6.0.0","hono":"4.13.22"},"devDependencies":{"@cloudflare/workers-types":"5.20261125.1","typescript":"7.0.2","wrangler":"4.168.0"}}
